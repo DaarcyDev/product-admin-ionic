@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 
 @Component({
@@ -16,21 +17,36 @@ export class AuthPage implements OnInit {
     password: new FormControl('', [Validators.required]),
   });
 
-  // firebaseSvc = inject(FirebaseService);
-
+  firebaseSvc = inject(FirebaseService);
+  utilsSvc = inject(UtilsService);
   constructor() { }
 
   ngOnInit() {
   }
 
-  submit() {
-    // if(this.form.valid){
-    //   this.firebaseSvc.signIn(this.form.value as User)
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => console.log(err));
-    // }
+  async submit() {
+    if(this.form.valid){
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+
+      this.firebaseSvc.signIn(this.form.value as User)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+        this.utilsSvc.toast({
+          message: 'The password is invalid or the user does not have a password.',
+          duration: 2000,
+          color: 'danger',
+          position: 'top',
+          icon: 'close-circle-outline'
+        });
+      })
+      .finally(() => {
+        loading.dismiss();
+      });
+    }
   }
 
 }
