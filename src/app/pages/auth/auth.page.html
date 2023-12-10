@@ -3,43 +3,61 @@
 
 	<div class="d-flex-center">
 		<form [formGroup]="form"
-			class="auth-form"
 			(ngSubmit)="submit()"
 			(keypress.enter)="submit()"
-			>
+			class="auth-form">
 			<app-logo></app-logo>
-			<div class="validator" *ngIf="form.controls.email.errors && form.controls.email.touched">
-				<div *ngIf="form.controls.email.errors?.['required']">
-					Email is required
-				</div>
-				<div *ngIf="form.controls.email.errors?.['email']">
-					Email is invalid
-				</div>
+			<!-- ! noficaciones -->
+			<!-- ? correo -->
+			<div *ngIf="form.controls.email.errors && form.controls.email.touched"
+				class="validator">
+				<div *ngIf="form.controls.email.errors?.['required']">Email is required</div>
+				<div *ngIf="form.controls.email.errors?.['email']">Email is invalid</div>
 			</div>
-			<div class="validator" *ngIf="form.controls.password.errors && form.controls.password.touched">
+			<!-- ? contraseña -->
+			<div *ngIf="form.controls.password.errors && form.controls.password.touched"
+				class="validator">
 				<div *ngIf="form.controls.password.errors?.['required']">
 					Password is required
 				</div>
 			</div>
+			<!-- ! campos -->
+			<!-- ? correo -->
 			<app-custom-input [control]="form.controls.email"
 				icon="mail-outline"
 				autocomplete="email"
 				type="email"
 				label="Email"></app-custom-input>
-
-			
+			<!-- ? contraseña -->
 			<app-custom-input [control]="form.controls.password"
 				icon="lock-closed-outline"
 				type="password"
 				label="Password"></app-custom-input>
-			<p class="ion-text-end" routerLink="forgot-password">¿Forgot Password?</p>
-			<ion-button  expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid">
+
+			<!-- ! bottones -->
+			<p class="ion-text-end"
+				routerLink="forgot-password">
+				¿Forgot Password?
+			</p>
+			<!-- ? login -->
+			<ion-button [disabled]="form.invalid"
+				expand="block"
+				mode="ios"
+				class="submit"
+				type="submit">
 				Login
-				<ion-icon slot="start" name="log-in-outline"></ion-icon>
+				<ion-icon slot="start"
+					name="log-in-outline"></ion-icon>
 			</ion-button>
-			<ion-button class="ion-margin-top" routerLink="sign-up" expand="block" mode="ios" fill="outline">
+			<!-- ? registro -->
+			<ion-button class="ion-margin-top"
+				routerLink="sign-up"
+				expand="block"
+				mode="ios"
+				fill="outline">
 				Register
-				<ion-icon slot="start" name="person-add-outline"></ion-icon>
+				<ion-icon slot="start"
+					name="person-add-outline"></ion-icon>
 			</ion-button>
 		</form>
 	</div>

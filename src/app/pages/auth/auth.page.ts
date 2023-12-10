@@ -31,7 +31,8 @@ export class AuthPage implements OnInit {
 
       this.firebaseSvc.signIn(this.form.value as User)
       .then(res => {
-        console.log(res);
+        //? mandamos a llamar la funcion que obtiene los datos del usuario
+        this.getUserInfo(res.user.uid);
       })
       .catch(err => {
         console.log(err);
@@ -49,4 +50,45 @@ export class AuthPage implements OnInit {
     }
   }
 
+  async getUserInfo(uid: string) {
+    if (this.form.valid) {
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+      //? asignar el uid al documento del usuario
+      let path = `users/${uid}`;
+      console.log(this.firebaseSvc.getDocument(path))
+      //? obtener los datos del usuario
+      this.firebaseSvc.getDocument(path)
+      
+        .then( (user: User) => {
+          //? guardar el usuario en el local storage
+          this.utilsSvc.saveInLocalStorage('user', user);
+          //? redireccionar a la pagina home
+          this.utilsSvc.routerLink('/main/home');
+          //? resetear el formulario
+          this.form.reset();
+          //? mostrar un mensaje de bienvenida
+          this.utilsSvc.toast({
+            message: `Welcome ${user.name}!`,
+            duration: 2000,
+            color: 'primary',
+            position: 'top',
+            icon: 'person-circle-outline'
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          this.utilsSvc.toast({
+            message: err.message,
+            duration: 2000,
+            color: 'danger',
+            position: 'top',
+            icon: 'close-circle-outline'
+          });
+        })
+        .finally(() => {
+          loading.dismiss();
+        });
+    }
+  }
 }

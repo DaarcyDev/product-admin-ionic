@@ -1,13 +1,69 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>sign-up</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header backButton="/auth"
+	title="Register"></app-header>
+<ion-content class="vhControl">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">sign-up</ion-title>
-    </ion-toolbar>
-  </ion-header>
+	<div class="d-flex-center">
+		<form [formGroup]="form"
+			(ngSubmit)="submit()"
+			(keypress.enter)="submit()"
+			class="auth-form">
+			<app-logo></app-logo>
+			<!-- ! noficaciones -->
+			<!-- ? nombre -->
+			<div *ngIf="form.controls.name.errors && form.controls.name.touched"
+				class="validator">
+				<div *ngIf="form.controls.name.errors?.['required']">Name is required</div>
+				<div *ngIf="form.controls.name.errors?.['minlength']">
+					Name must be at least 4 characters long
+				</div>
+			</div>
+			<!-- ? correo -->
+			<div *ngIf="form.controls.email.errors && form.controls.email.touched"
+				class="validator">
+				<div *ngIf="form.controls.email.errors?.['required']">Email is required</div>
+				<div *ngIf="form.controls.email.errors?.['email']">Email is invalid</div>
+			</div>
+			<!-- ? contraseña -->
+			<div *ngIf="form.controls.password.errors && form.controls.password.touched"
+				class="validator">
+				<div *ngIf="form.controls.password.errors?.['required']">
+					Password is required
+				</div>
+				<div *ngIf="form.controls.password.errors?.['minlength']">
+					Password must be at least 6 characters long
+				</div>
+			</div>
+			<!-- ! campos -->
+			<!-- ? nombre -->
+			<app-custom-input [control]="form.controls.name"
+				icon="person-outline"
+				type="text"
+				label="Name"></app-custom-input>
+			<!-- ? correo -->
+			<app-custom-input [control]="form.controls.email"
+				icon="mail-outline"
+				autocomplete="email"
+				type="email"
+				label="Email"></app-custom-input>
+			<!-- ? contraseña -->
+			<app-custom-input [control]="form.controls.password"
+				icon="lock-closed-outline"
+				type="password"
+				label="Password"></app-custom-input>
+
+			<!-- ! bottones -->
+			<!-- ? login -->
+			<ion-button [disabled]="form.invalid"
+				expand="block"
+				mode="ios"
+				class="submit"
+				type="submit">
+				Register
+				<ion-icon slot="start"
+					name="person-add-outline"></ion-icon>
+			</ion-button>
+
+		</form>
+	</div>
+
 </ion-content>
