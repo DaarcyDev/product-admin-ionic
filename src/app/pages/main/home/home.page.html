@@ -1,11 +1,11 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Home"></app-header>
 
-<ion-content [fullscreen]="true">
-  <ion-button (click)="signOut()" >
-    Sign Out
-  </ion-button>
+<ion-content>
+
+  <!--! nuevo producto -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addUpdateProduct()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

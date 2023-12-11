@@ -1,0 +1,65 @@
+<app-header [isModal]="true" title="Add product"></app-header> 
+<ion-content>
+
+  <form [formGroup]="form"
+			(ngSubmit)="submit()"
+			(keypress.enter)="submit()"
+			class="ion-padding ion-text-center">
+			<!-- ! noficaciones -->
+			<!-- ? nombre -->
+			<div *ngIf="form.controls.name.errors && form.controls.name.touched"
+				class="validator">
+				<div *ngIf="form.controls.name.errors?.['required']">Name is required</div>
+				<div *ngIf="form.controls.name.errors?.['minlength']">
+					Name must be at least 4 characters long
+				</div>
+			</div>
+      <!-- ? price -->
+			<div *ngIf="form.controls.price.errors && form.controls.price.touched"
+				class="validator">
+				<div *ngIf="form.controls.price.errors?.['required']">Price is required</div>
+				<div *ngIf="form.controls.price.errors?.['min']">
+					Price must be at least 0
+				</div>
+			</div>
+      <!-- ? soldUnits -->
+			<div *ngIf="form.controls.soldUnits.errors && form.controls.soldUnits.touched"
+				class="validator">
+				<div *ngIf="form.controls.soldUnits.errors?.['required']">Sold Units is required</div>
+				<div *ngIf="form.controls.soldUnits.errors?.['min']">
+					Sold Units must be at least 0
+				</div>
+			</div>
+
+
+			<!-- ! campos -->
+			<!-- ? nombre -->
+			<app-custom-input [control]="form.controls.name"
+				type="text"
+				label="Name"></app-custom-input>
+
+      <!-- ? precio -->
+			<app-custom-input [control]="form.controls.price"
+				type="number"
+				label="Price"></app-custom-input>
+
+      <!-- ? unidadesVendidas -->
+			<app-custom-input [control]="form.controls.soldUnits"
+				type="number"
+				label="Sold Units"></app-custom-input>
+
+
+			<!-- ! bottones -->
+			<!-- ? login -->
+			<ion-button [disabled]="form.invalid"
+				mode="ios"
+				class="ion-margin"
+				type="submit">
+				Register
+				<ion-icon slot="start"
+					name="checkmark-circle-outline"></ion-icon>
+			</ion-button>
+
+		</form>
+
+</ion-content>|
